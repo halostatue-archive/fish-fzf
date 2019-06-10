@@ -6,9 +6,9 @@ function fkill
     set -l uid (id -u)
     set -l pid
     if test $uid -ne 0
-        pid=(ps -f -u $uid | sed 1d | fzf -m | awk '{ print $2; }')
+        set pid (ps -f -u $uid | sed 1d | fzf -m | awk '{ print $2; }')
     else
-        pid=(ps -ef | sed 1d | fzf -m | awk '{ print $2; }')
+        set pid (ps -ef | sed 1d | fzf -m | awk '{ print $2; }')
     end
 
     test -z $pid
