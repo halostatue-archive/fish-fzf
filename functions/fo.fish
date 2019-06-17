@@ -4,7 +4,7 @@ function fo -d 'Open or Edit a File'
     set -l key $out[1]
     set -l file $out[2]
 
-    if test -z $file
+    if not test -z $file
         if test $key = ctrl-o
             open $file
         else
@@ -12,7 +12,7 @@ function fo -d 'Open or Edit a File'
             test -z $editor
             and set -l editor vim
 
-            $editor $vim
+            $editor $file
         end
     end
 end
