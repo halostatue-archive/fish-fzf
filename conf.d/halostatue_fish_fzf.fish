@@ -1,6 +1,6 @@
 # Handle the case of fzf being installed directly.
-if not command -sq fzf
-    and test -d $HOME/.fzf/bin
+command -sq fzf
+or if test -d $HOME/.fzf/bin
     contains -- $HOME/.fzf/bin $fish_user_paths
     or set fish_user_paths $fish_user_paths $HOME/.fzf/bin
 
@@ -10,12 +10,12 @@ else
     exit
 end
 
-function __fzf_rename_vars
-    if set -Uq $argv[1]
-        set -Uq $argv[2]
-        and set -Ux $argv[2] $$argv[1]
+function __fzf_rename_vars -a old new
+    if set -Uq $old
+        set -Uq $new
+        and set -Ux $new $$old
 
-        set -e $argv[1]
+        set -Ue $old
     end
 end
 
@@ -27,23 +27,34 @@ __fzf_rename_vars FZF_CTRL_T_DEFAULT_COMMAND FZF_FIND_FILE_COMMAND
 
 functions -e __fzf_rename_vars
 
-if not set -q __fzf_find_file_command
-    or not test -x $__fzf_find_file_command
-    if command -sq pt
-        set -U __fzf_find_file_command
-        set -Ux FZF_FIND_FILE_COMMAND 'pt -g "" --hidden --ignore .git'
+function __fzf_command_var -a var program args
+    argparse -N1 'c-clear' -- $argv
+    set -l var $argv[1]
+    set -l lower __(string lower $var)
 
-    else if command -sq rg
-        set -U __fzf_find_file_command
-        set -Ux FZF_FIND_FILE_COMMAND 'rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2>/dev/null'
-    else if command -sq ag
-        set -U __fzf_find_file_command
-        set -Ux FZF_FIND_FILE_COMMAND 'ag -g "" --hidden --ignore .git'
-    else
-        set -e __fzf_find_file_command
-        set -e FZF_FIND_FILE_COMMAND
-    end
+    set -q _flag_clear
+    and set -Ue $lower
+    and set -Ue $var
+    and return 0
+
+    set -q $lower
+    and command -sq $$lower
+    and return 0
+
+    set -l program $argv[2]
+    set -l args $argv[3]
+
+    command -sq $program
+    and set -U $lower $program
+    and set -Ux $var $program' '$args
+    and return 0
 end
+
+__fzf_command_var FZF_FIND_FILE_COMMAND -- fd '--type f'
+or __fzf_command_var FZF_FIND_FILE_COMMAND -- pt '-g "" --hidden --ignore .git'
+or __fzf_command_var FZF_FIND_FILE_COMMAND -- rg '--files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2>/dev/null'
+or __fzf_command_var FZF_FIND_FILE_COMMAND -- ag '-g "" --hidden --ignore .git'
+or __fzf_command_var --clear FZF_FIND_FILE_COMMAND
 
 if not set -Uq FZF_FIND_FILE_OPTS
     set -l preview \
@@ -57,6 +68,12 @@ if not set -Uq FZF_FIND_FILE_OPTS
     set -l preview '('(string join '; or '$preview)') | head -200'
     set -Ux FZF_FIND_FILE_OPTS '--preview='$preview' --select -1 --exit 0'
 end
+
+__fzf_command_var FZF_CD_COMMAND -- fd '--type d'
+or __fzf_command_var --clear FZF_CD_COMMAND
+
+__fzf_command_var FZF_CD_WITH_HIDDEN_COMMAND -- fd '--type d'
+or __fzf_command_var --clear FZF_CD_WITH_HIDDEN_COMMAND
 
 set -Uq FZF_CD_OPTS
 and set -Ux FZF_CD_OPTS "--preview='tree -C {} | head -200' --header-lines=1 --select-1 --exit-0"
@@ -117,10 +134,15 @@ function _halostatue_fish_fzf_select_widget -d 'fzf commandline job and print un
 end
 
 function _halostatue_fish_fzf_uninstall -e halostatue_fish_fzf_uninstall
-    for var in FZF_CTRL_T_OPTS FZF_FIND_FILE_OPTS FZF_ALT_C_OPTS FZF_CD_OPTS FZF_CTRL_R_OPTS \
-        FZF_REVERSE_ISEARCH_OPTS __fzf_ctrl_t_default_command __fzf_find_file_command
+    for var in FZF_CTRL_T_OPTS FZF_ALT_C_OPTS FZF_CTRL_R_OPTS \
+        FZF_FIND_FILE_OPTS FZF_REVERSE_ISEARCH_OPTS \
+        FZF_CTRL_T_DEFAULT_COMMAND FZF_FIND_FILE_COMMAND \
+        FZF_CD_COMMAND FZF_CD_WITH_HIDDEN_COMMAND
         set -Uq $var
-        and set -e $var
+        and set -Ue $var
+
+        set -Uq __(string lower $var)
+        and set -Ue __(string lower $var)
     end
 
     functions -e fbr fco fkill fe fo fshow fstash (functions -a | command awk '/_halostatue_fish_fzf_/')
