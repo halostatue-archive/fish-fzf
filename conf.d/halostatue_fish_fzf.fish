@@ -65,7 +65,7 @@ if not set -Uq FZF_FIND_FILE_OPTS
         'coderay {}' \
         'rougify {}' \
         'cat {}'
-    set -l preview '('(string join '; or '$preview)') | head -200'
+    set -l preview '('(string join '; or ' $preview)') | head -200'
     set -Ux FZF_FIND_FILE_OPTS '--preview='$preview' --select -1 --exit 0'
 end
 
