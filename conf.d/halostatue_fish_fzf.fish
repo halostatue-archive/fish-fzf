@@ -58,15 +58,22 @@ or __fzf_command_var --clear FZF_FIND_FILE_COMMAND
 
 if not set -Uq FZF_FIND_FILE_OPTS
     set -l preview \
-        'test -d {}; and tree -C {}' \
-        'string match -qe binary (file --mime {}); and echo {} is a binary file' \
-        'bat --style=numbers --color=always {}' \
-        'highlight -O ansi -l {}' \
-        'coderay {}' \
-        'rougify {}' \
-        'cat {}'
-    set -l preview '('(string join '; or ' $preview)') | head -200'
-    set -Ux FZF_FIND_FILE_OPTS '--preview='$preview' --select -1 --exit 0'
+        'string match -qe binary (file --mime {}) && echo {} is a binary file' \
+
+    if command -sq bat
+        set preview $preview 'bat --style=numbers --color=always {}'
+    else if command -sq highlight
+        set preview $preview 'highlight -O ansi -l {}'
+    else if command -sq coderay
+        set preview $preview 'coderay {}'
+    else if command -sq rougify
+        set preview $preview 'rougify {}'
+    end
+
+    set preview $preview 'cat {}' 'tree -C {}'
+    set preview (string join ' 2>&1 || ' $preview)' | head -200'
+    # set preview (string join ' 2>/dev/null || ' $preview)' | head -200'
+    set -Ux FZF_FIND_FILE_OPTS "--preview='"$preview"' --select-1 --exit-0"
 end
 
 __fzf_command_var FZF_CD_COMMAND -- fd '--type d'
