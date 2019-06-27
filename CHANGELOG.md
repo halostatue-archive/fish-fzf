@@ -1,5 +1,9 @@
 # fish-fzf Changelog
 
+## 1.2.1
+
+* Fix an error in reformatting.
+
 ## 1.2
 
 * Stop managing MANPATH.

@@ -47,7 +47,7 @@ function _halostatue_fish_fzf_command_var -a var program args
     set -l program $argv[2]
     set -l args $argv[3]
 
-    -sq $program
+    command -sq $program
     and set -U $lower $program
     and set -Ux $var $program' '$args
     and return 0
@@ -92,10 +92,9 @@ function _halostatue_fish_fzf_configure_cd
     and set -Ux FZF_CD_OPTS "--preview='tree -C {} | head -200' --header-lines=1 --select-1 --exit-0"
 end
 
-
 function _halostatue_fish_fzf_configure_reverse_isearch
-set -Uq FZF_REVERSE_ISEARCH_OPTS
-or set -Ux FZF_REVERSE_ISEARCH_OPTS "--preview='echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    set -Uq FZF_REVERSE_ISEARCH_OPTS
+    or set -Ux FZF_REVERSE_ISEARCH_OPTS "--preview='echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 end
 
 _halostatue_fish_fzf_configure_cd
