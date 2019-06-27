@@ -31,7 +31,7 @@ directory structure.
 ## System Configuration (conf.d)
 
 - If `fzf` is installed in `$HOME/.fzf`, adds `$HOME/.fzf/bin` to
-  `$fish_user_paths` and updates `$MANPATH` appropriately.
+  `$fish_user_paths`.
 
 - Sets a useful universal value for `$FZF_FIND_FILE_COMMAND` if one of
   [pt (the platinum searcher)][], [rg (ripgrep)][], or [ag (the silver
