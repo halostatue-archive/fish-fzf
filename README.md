@@ -20,6 +20,7 @@ fisher add halostatue/fish-fzf
 
 Copy `conf.d/*.fish` to your fish configuration directory preserving the
 directory structure.
+
 </details>
 
 ### System Requirements
@@ -33,31 +34,31 @@ directory structure.
 - If `fzf` is installed in `$HOME/.fzf`, adds `$HOME/.fzf/bin` to
   `$fish_user_paths`.
 
-- Sets a useful universal value for `$FZF_FIND_FILE_COMMAND` if one of
+- Sets a useful global value for `$FZF_FIND_FILE_COMMAND` if one of
   [pt (the platinum searcher)][], [rg (ripgrep)][], or [ag (the silver
   searcher)][] are installed.
 
-- Sets a useful universal value for `$FZF_FIND_FILE_OPTS` that will take
+- Sets a useful global value for `$FZF_FIND_FILE_OPTS` that will take
   advantage of [bat][], [highlight][], rougify, coderay, `cat`, or `tree`.
 
-- Sets a useful universal value for `$FZF_CD_OPTS` using `tree`.
+- Sets a useful global value for `$FZF_CD_OPTS` using `tree`.
 
-- Sets a useful universal value for `$FZF_REVERSE_ISEARCH_OPTS` offering a
+- Sets a useful global value for `$FZF_REVERSE_ISEARCH_OPTS` offering a
   hidden preview activated with `?`.
 
 ### Completion Widgets
 
 None of the included completion widgets are bound by default.
 
-#### _halostatue_fish_fzf_bcd_widget
+#### \_halostatue_fish_fzf_bcd_widget
 
 Use fzf to select a parent directory from the current directory.
 
-#### _halostatue_fish_fzf_cdhist_widget
+#### \_halostatue_fish_fzf_cdhist_widget
 
 Use fzf to choose a directory that has previously been visited.
 
-#### _halostatue_fish_fzf_select_widget
+#### \_halostatue_fish_fzf_select_widget
 
 Run the current command-line which produces output piped through fzf. Replace
 the command-line with the unescaped selection.
@@ -131,10 +132,11 @@ a branch, for easier merging.
 
 [MIT](LICENCE.md)
 
-[fish shell]: https://fishshell.com "friendly interactive shell"
+[fish shell]: https://fishshell.com 'friendly interactive shell'
 [fzf]: https://github.com/junegunn/fzf
 [jethrokuan/fzf]: https://github.com/jethrokuan/fzf
-[Version]: https://img.shields.io/github/tag/halostatue/fish-fzf.svg?label=Version
+[version]: https://img.shields.io/github/tag/halostatue/fish-fzf.svg?label=Version
+
 [![Version][]]: https://github.com/halostatue/fish-fzf/releases
 [Fisher]: https://github.com/jorgebucaran/fisher
 [fish]: https://github.com/fish-shell/fish-shell
