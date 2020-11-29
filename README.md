@@ -3,6 +3,11 @@
 A quick plugin for [fish shell][] that provides some useful default
 configuration options for [fzf][] over and above [jethrokuan/fzf][].
 
+> This plugin is likely to see changes in the near future so that the
+> configuration changes can be opted into for either [jethrokua/fzf][] or
+> [PatrickF1/fzf.fish][]. When this happens, changes to configuration will be
+> required.
+
 [![Version][]][]
 
 ## Installation
@@ -10,7 +15,11 @@ configuration options for [fzf][] over and above [jethrokuan/fzf][].
 Install with [Fisher][] (recommended):
 
 ```fish
+# Fisher 3.x
 fisher add halostatue/fish-fzf
+
+# Fisher 4.0+: Dependencies must be declared explicitly
+fisher install jethrokuan/fzf halostatue/fish-fzf
 ```
 
 <details>
@@ -26,7 +35,7 @@ directory structure.
 ### System Requirements
 
 - [fish][] 3.0+
-- [jethrokuan/fzf][] (handled by [Fisher][])
+- [jethrokuan/fzf][]
 - [fzf][]
 
 ## System Configuration (conf.d)
@@ -135,6 +144,7 @@ a branch, for easier merging.
 [fish shell]: https://fishshell.com 'friendly interactive shell'
 [fzf]: https://github.com/junegunn/fzf
 [jethrokuan/fzf]: https://github.com/jethrokuan/fzf
+[PatrickF1/fzf.fish]: https://github.com/PatrickF1/fzf.fish
 [version]: https://img.shields.io/github/tag/halostatue/fish-fzf.svg?label=Version
 
 [![Version][]]: https://github.com/halostatue/fish-fzf/releases
