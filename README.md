@@ -1,12 +1,11 @@
 # halostatue/fish-fzf
 
+This plugin is archived as I am now using [PatrickF1/fzf.fish](https://github.com/PatrickF1/fzf.fish)
+instead of [jethrokuan/fzf], and the changes here are _less_ useful
+than the core functionality provided by Patrick’s plug-in.
+
 A quick plugin for [fish shell][] that provides some useful default
 configuration options for [fzf][] over and above [jethrokuan/fzf][].
-
-> This plugin is likely to see changes in the near future so that the
-> configuration changes can be opted into for either [jethrokua/fzf][] or
-> [PatrickF1/fzf.fish][]. When this happens, changes to configuration will be
-> required.
 
 [![Version][]][]
 
